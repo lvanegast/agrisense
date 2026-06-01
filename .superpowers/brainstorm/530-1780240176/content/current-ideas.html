@@ -1,0 +1,130 @@
+<h2>Ideas Actuales — Más allá de E-commerce y CRUD</h2>
+<p class="subtitle">Casos de uso reales · 2026 · Distintos a user management/productos</p>
+
+<div class="options">
+  <div class="option" data-choice="ai-playground" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>LLM Prompt Hub</h3>
+      <p><strong>¿Para quién?</strong> Equipos de desarrollo que trabajan con múltiples LLMs (Claude, GPT, Gemini).</p>
+      <p><strong>¿Qué resuelve?</strong> Centralizar prompts, comparar outputs entre modelos, trackear costos ($ por llamada), versionar prompts como código. Cada developer tiene sus prompts dispersos — esto los unifica.</p>
+      <p><strong>¿Por qué es actual?</strong> El ecosistema LLM está en auge. Las empresas necesitan gobernar sus prompts y medir qué modelo rinde mejor para cada tarea.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Multi-modelo</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Versionado</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Cost tracking</span>
+        <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:999px;font-size:11px;">Side-by-side</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="feature-flags" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Feature Flag Manager</h3>
+      <p><strong>¿Para quién?</strong> Equipos de producto/engineering que practican trunk-based development y deploy continuo.</p>
+      <p><strong>¿Qué resuelve?</strong> Activar/desactivar features en producción sin redeploy. Flags boolean, porcentuales (10% de usuarios), por segmento (beta testers). SDK para consultar flags desde cualquier app. Auditoría de cambios.</p>
+      <p><strong>¿Por qué es actual?</strong> CI/CD maduro exige feature flags. Herramientas como LaunchDarkly son caras — muchas empresas buscan alternativas internas.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">SDK</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Rollout %</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Auditoría</span>
+        <span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:999px;font-size:11px;">Segmentos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="webhook-manager" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Webhook Relay Hub</h3>
+      <p><strong>¿Para quién?</strong> Equipos que integran servicios externos (pagos, notificaciones, CRM) y necesitan visibilidad de lo que entra/sale.</p>
+      <p><strong>¿Qué resuelve?</strong> Recibir webhooks externos, registrarlos, reenviarlos a destinos configurados. Dashboard con historial de entregas, reintentos automáticos con backoff, alertas si un endpoint destino falla repetidamente.</p>
+      <p><strong>¿Por qué es actual?</strong> Las arquitecturas event-driven son el estándar. Los equipos necesitan observar y gestionar sus webhooks entrantes/salientes.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Retry logic</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Logs</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Routing</span>
+        <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:999px;font-size:11px;">Alertas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="feedback-board" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Feature Request Board</h3>
+      <p><strong>¿Para quién?</strong> SaaS companies que quieren dar voz a sus usuarios y tener un roadmap público.</p>
+      <p><strong>¿Qué resuelve?</strong> Los usuarios proponen ideas, votan, comentan. El equipo las mueve por un Kanban (under review → planned → in progress → shipped). El changelog público muestra lo entregado.</p>
+      <p><strong>¿Por qué es actual?</strong> El product-led growth exige transparencia con los usuarios. Cada SaaS necesita un portal de feedback. Canny.io domina pero es caro.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Kanban</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Votación</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Roadmap</span>
+        <span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:999px;font-size:11px;">Changelog</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>Resumen de casos de uso</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px;">
+    <div class="mockup">
+      <div class="mockup-header">A: LLM Prompt Hub</div>
+      <div class="mockup-body" style="font-size:12px;">
+        <strong>Target:</strong> Devs con LLMs<br>
+        <strong>Diferente de:</strong> E-commerce, CRUD<br>
+        <strong>Novedad:</strong> AI, cost tracking<br>
+        <strong>Backend:</strong> 6 entidades<br>
+        <strong>Frontend:</strong> Split-view compare
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">B: Feature Flags</div>
+      <div class="mockup-body" style="font-size:12px;">
+        <strong>Target:</strong> DevOps, SRE<br>
+        <strong>Diferente de:</strong> Todo lo que conoces<br>
+        <strong>Novedad:</strong> SDK, rollout %<br>
+        <strong>Backend:</strong> 5 entidades<br>
+        <strong>Frontend:</strong> Toggle dashboard
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">C: Webhook Hub</div>
+      <div class="mockup-body" style="font-size:12px;">
+        <strong>Target:</strong> Backend devs<br>
+        <strong>Diferente de:</strong> CRUD tradicional<br>
+        <strong>Novedad:</strong> Event-driven<br>
+        <strong>Backend:</strong> 6 entidades<br>
+        <strong>Frontend:</strong> Log viewer
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">D: Feature Board</div>
+      <div class="mockup-body" style="font-size:12px;">
+        <strong>Target:</strong> SaaS founders<br>
+        <strong>Diferente de:</strong> E-commerce<br>
+        <strong>Novedad:</strong> Roadmap público<br>
+        <strong>Backend:</strong> 5 entidades<br>
+        <strong>Frontend:</strong> Kanban drag-drop
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <div class="mockup">
+    <div class="mockup-header">Mi recomendación para esta prueba</div>
+    <div class="mockup-body" style="font-size:14px; line-height:1.6;">
+      <p><strong>Opción A — LLM Prompt Hub</strong> es la más actual y diferenciada:</p>
+      <ul style="margin:8px 0; padding-left:18px;">
+        <li>No es otro CRUD — tiene lógica de comparación, versionado, cost tracking</li>
+        <li>Temática AI muy relevante en 2026 sin necesidad de integrar APIs reales (se mockean)</li>
+        <li>Clean architecture se luce con la separación de proveedores LLM (strategy pattern)</li>
+        <li>Frontend atractivo: editor de prompts side-by-side con outputs</li>
+      </ul>
+      <p style="margin-top:8px;">La <strong>Opción C (Webhook Hub)</strong> también es excelente si prefieres algo más cercano a sistemas distribuidos y event-driven.</p>
+    </div>
+  </div>
+</div>

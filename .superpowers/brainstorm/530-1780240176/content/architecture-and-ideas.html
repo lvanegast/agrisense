@@ -1,0 +1,140 @@
+<h2>Clean Architecture - Full Stack App</h2>
+<p class="subtitle">FastAPI + React + PostgreSQL · uv gestor · Python 3.13</p>
+
+<div class="section">
+  <div class="mockup" style="margin-bottom: 24px;">
+    <div class="mockup-header">Arquitectura Propuesta</div>
+    <div class="mockup-body" style="font-size: 13px; line-height: 1.6; padding: 16px;">
+<pre style="background: #1e1e2e; color: #cdd6f4; padding: 20px; border-radius: 8px; margin: 0; font-size: 12px; line-height: 1.5;">
+┌─────────────────────────────────────────────────────────┐
+│                    FRONTEND (React)                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐   │
+│  │  Pages    │  │Components│  │   Hooks / Services   │   │
+│  │(Routing)  │  │  (UI)    │  │ (API calls, state)   │   │
+│  └──────────┘  └──────────┘  └──────────────────────┘   │
+├─────────────────────────────────────────────────────────┤
+│                    BACKEND (FastAPI)                     │
+│                                                         │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  API Layer (Routers, Dependencies, Middleware)   │    │
+│  │  - /api/v1/...  - Auth, CORS, Validation         │    │
+│  └──────────────────────┬──────────────────────────┘    │
+│  ┌──────────────────────┴──────────────────────────┐    │
+│  │  Application Layer (Use Cases, Services)         │    │
+│  │  - Business logic orchestration                  │    │
+│  └──────────────────────┬──────────────────────────┘    │
+│  ┌──────────────────────┴──────────────────────────┐    │
+│  │  Domain Layer (Entities, Value Objects, Ports)   │    │
+│  │  - Core business rules, Repository interfaces    │    │
+│  └──────────────────────┬──────────────────────────┘    │
+│  ┌──────────────────────┴──────────────────────────┐    │
+│  │  Infrastructure (SQLAlchemy, PostgreSQL, Auth)   │    │
+│  │  - Repository implementations, DB models, JWT    │    │
+│  └─────────────────────────────────────────────────┘    │
+├─────────────────────────────────────────────────────────┤
+│              POSTGRESQL (Database)                       │
+│  - Migrations (Alembic), Data, Indexes                  │
+└─────────────────────────────────────────────────────────┘
+</pre>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+    <div class="mockup">
+      <div class="mockup-header">Estructura de Directorios - Backend</div>
+      <div class="mockup-body" style="font-size: 11px;">
+<pre style="margin:0; background:#1e1e2e; color:#cdd6f4; padding:12px; border-radius:6px;">
+backend/
+├── src/
+│   ├── api/          # Routers, deps
+│   ├── application/  # Use cases
+│   ├── domain/       # Entities, ports
+│   └── infrastructure/
+│       ├── db/       # Models, repos
+│       └── auth/     # JWT, hashing
+├── tests/
+├── pyproject.toml
+└── alembic/
+</pre>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">Estructura de Directorios - Frontend</div>
+      <div class="mockup-body" style="font-size: 11px;">
+<pre style="margin:0; background:#1e1e2e; color:#cdd6f4; padding:12px; border-radius:6px;">
+frontend/
+├── src/
+│   ├── components/   # UI components
+│   ├── pages/        # Route pages
+│   ├── hooks/        # Custom hooks
+│   ├── services/     # API client
+│   ├── context/      # State management
+│   └── styles/       # CSS/Tailwind
+├── public/
+└── package.json
+</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Ideas de Aplicación</h2>
+<p class="subtitle">Selecciona la idea que más te interese (haz clic para elegir)</p>
+
+<div class="options">
+  <div class="option" data-choice="feedback-board" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Feature Request Board</h3>
+      <p>Al estilo Canny.io — los usuarios crean peticiones, votan, comentan. El admin gestiona roadmap (planned, in progress, done). Kanban visual con drag & drop.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Auth JWT</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Votaciones</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Kanban</span>
+        <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:999px;font-size:11px;">Drag & Drop</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="dev-dashboard" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>DevMetrics Dashboard</h3>
+      <p>Dashboard de monitoreo de APIs/endpoints — registra latencia, errores, uptime. Gráficos con Recharts, alertas configurables, status pages públicas.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Gráficos</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Alertas</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Webhooks</span>
+        <span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:999px;font-size:11px;">Time-series</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="admin-panel" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Admin Panel &mdash; E-commerce</h3>
+      <p>Panel de administración para tienda online — productos, categorías, órdenes, clientes. Tablas con sorting/filtrado, formularios avanzados, subida de imágenes.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">CRUD</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Uploads</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Tablas</span>
+        <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:999px;font-size:11px;">Filtros</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="knowledge-base" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Second Brain / Knowledge Base</h3>
+      <p>App de notas interconectadas tipo Obsidian/Notion lite — editor Markdown, graph view de conexiones, tags, búsqueda full-text, colecciones anidadas.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Markdown</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Graph View</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Search</span>
+        <span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:999px;font-size:11px;">Nested</span>
+      </div>
+    </div>
+  </div>
+</div>

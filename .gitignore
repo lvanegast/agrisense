@@ -1,0 +1,65 @@
+# ── Python / Backend ──────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# ── Node / Frontend ───────────────────────────────────────
+node_modules/
+.npm
+.yarn
+.pnp.*
+frontend/dist/
+frontend/build/
+.vite/
+
+# ── Docker ────────────────────────────────────────────────
+# (keep docker-compose.yml tracked)
+.docker/
+
+# ── Database ──────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+postgres-data/
+
+# ── IDE / Editors ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS ────────────────────────────────────────────────────
+.DS_Store
+ehthumbs.db
+
+# ── Secrets ───────────────────────────────────────────────
+*.pem
+*.key
+*.crt
+secrets/

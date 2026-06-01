@@ -1,0 +1,16 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - img [ref=e7]
+    - heading "AgriSense" [level=1] [ref=e11]
+    - paragraph [ref=e12]: Monitor de Agricultura de Precisión
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: Usuario
+      - textbox "demo" [ref=e16]
+    - generic [ref=e17]:
+      - generic [ref=e18]: Contraseña
+      - textbox "••••••••" [ref=e19]
+    - generic [ref=e20]:
+      - button "Entrar" [ref=e21]
+      - button "Registro" [ref=e22]
+  - paragraph [ref=e23]: Datos simulados · Demo v0.1.0

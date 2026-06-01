@@ -1,0 +1,76 @@
+<h2>Mejoras para AgriSense — Más allá del visualizador</h2>
+<p class="subtitle">De dashboard pasivo a plataforma de agricultura inteligente</p>
+
+<h3 style="margin-top: 24px;">Comparativa de funcionalidades</h3>
+
+<div class="options">
+  <div class="option" data-choice="digital-twin" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Digital Twin — Mapa Interactivo del Cultivo</h3>
+      <p>Reemplazar las cards por un <strong>mapa top-down SVG interactivo</strong> de la finca. Cada zona es un polígono coloreado por estado (verde=normal, amarillo=atención, rojo=crítico). Los sensores son nodos con pulsos animados. Al hacer hover ves datos en tiempo real. Drag para moverte, zoom. Se siente como un <em>centro de control de misión</em>.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">SVG Map</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Pulsos live</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Heat zones</span>
+        <span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:999px;font-size:11px;">Zoom/Pan</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="predictive" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Motor Predictivo + Crop Health Score</h3>
+      <p>Añadir un <strong>índice de salud del cultivo (0-100)</strong> calculado en tiempo real combinando humedad, temperatura, pH y luz con pesos configurables. Una <strong>proyección de tendencias</strong> que predice cuándo un parámetro cruzará el threshold (ej: "Riego necesario en ~45 min"). Gráfico de proyección con banda de confianza.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Health Score</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Forecast</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">ML-like</span>
+        <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:999px;font-size:11px;">Predicción</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="interventions" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Plan de Intervenciones + Work Orders</h3>
+      <p>Las alertas se convierten en <strong>órdenes de trabajo</strong>: "Regar Invernadero Tomates — 200L" con capacidad de marcar como completada, añadir notas, y ver historial. Un <strong>calendario de cultivo</strong> con fases (siembra → crecimiento → cosecha). Tracking de recursos usados (agua, fertilizante).</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Work Orders</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Calendario</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Recursos</span>
+        <span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:999px;font-size:11px;">Historial</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="all-three" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Las 3 integradas — Plataforma Completa</h3>
+      <p>Mapa interactivo como vista principal + Health Score en cada zona + Órdenes de trabajo generadas automáticamente por el motor de reglas. La app pasa de "monitorizar" a <strong>"gestionar"</strong> una finca. El flujo: observar mapa → detectar anomalía → recibir work order → ejecutar → verificar mejora en health score.</p>
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:999px;font-size:11px;">Completo</span>
+        <span style="background:#fce7f3;color:#9d174d;padding:2px 8px;border-radius:999px;font-size:11px;">Flujo cerrado</span>
+        <span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:999px;font-size:11px;">Producto real</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <div class="mockup">
+    <div class="mockup-header">Mi recomendación</div>
+    <div class="mockup-body" style="font-size:14px; line-height:1.6;">
+      <p><strong>Opción D — las 3 integradas</strong> convierte la app en algo que parece un producto real, no un dashboard genérico:</p>
+      <ol style="margin:8px 0; padding-left:18px;">
+        <li><strong>Mapa interactivo</strong> — el gancho visual. Entras y ves tu finca viva.</li>
+        <li><strong>Health Score</strong> — la métrica que resume todo. Cada zona tiene su score 0-100.</li>
+        <li><strong>Work Orders</strong> — la acción. No solo ves problemas, los resuelves.</li>
+      </ol>
+      <p style="margin-top:8px;">El backend ya tiene la base. Añadiríamos: entidad WorkOrder, endpoint de health score, y el frontend cambiaría bastante con el mapa SVG.</p>
+    </div>
+  </div>
+</div>

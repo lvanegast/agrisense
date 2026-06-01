@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+@theme {
+  --font-syne: "Syne", sans-serif;
+  --font-dm: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-nvidia-green: #76B900;
+  --color-nvidia-dark: #09090b;
+  --color-nvidia-gray: #0c0c0e;
+  --color-nvidia-light: #fafafa;
+  --color-cyan-glow: #00ffcc;
+
+  --color-forest-950: #09090b;
+  --color-forest-900: #0c0c0e;
+  --color-forest-800: #121214;
+  --color-forest-700: #18181b;
+  --color-forest-600: #27272a;
+  --color-forest-500: #3f3f46;
+  --color-forest-400: #52525b;
+  --color-forest-300: #71717a;
+  --color-forest-200: #a1a1aa;
+  --color-forest-100: #f4f4f5;
+
+  --color-sprout-400: #76B900;
+  --color-sprout-300: #4ade80;
+  --color-sprout-200: #bbf7d0;
+  --color-sprout-100: #dcfce7;
+
+  --color-amber-400: #f59e0b;
+  --color-alert-red: #ef4444;
+  --color-alert-amber: #f59e0b;
+}
+
+body {
+  background-color: #09090b;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(118, 185, 0, 0.01) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  color: #fafafa;
+  font-family: var(--font-dm);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Floating Organic Ambient Spotlights */
+body::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(118, 185, 0, 0.035) 0%, transparent 70%);
+  z-index: -10;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  bottom: 15%;
+  right: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 255, 204, 0.025) 0%, transparent 70%);
+  z-index: -10;
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+/* World-Class Glassmorphism Card System */
+.glass-card {
+  background: rgba(18, 18, 22, 0.45);
+  backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 10px 40px -10px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 1px rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(22, 22, 26, 0.6);
+  border-color: rgba(118, 185, 0, 0.25);
+  box-shadow: 
+    0 15px 40px -8px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(118, 185, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Interactive Glowing Auras */
+.neon-glow-emerald {
+  box-shadow: 
+    0 0 20px rgba(118, 185, 0, 0.15),
+    inset 0 0 12px rgba(118, 185, 0, 0.05);
+}
+
+.neon-glow-cyan {
+  box-shadow: 
+    0 0 20px rgba(0, 255, 204, 0.15),
+    inset 0 0 12px rgba(0, 255, 204, 0.05);
+}
+
+/* Modern Technical Sliders */
+.tech-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  outline: none;
+}
+
+.tech-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  border: 2px solid #76B900;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.tech-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: #76B900;
+  box-shadow: 0 0 15px rgba(118, 185, 0, 0.8);
+}
+
+/* Custom Technical Badge */
+.tech-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Highly Refined Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(118, 185, 0, 0.4);
+}
+
+/* ==========================
+   KINETIC ANIMATIONS v6.0
+   ========================== */
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.015); }
+}
+.animate-pulse-glow {
+  animation: pulseGlow 4s infinite ease-in-out;
+}
+
+@keyframes lidarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-lidar {
+  transform-origin: center;
+  animation: lidarSweep 6s infinite linear;
+}
+
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+  z-index: 2;
+  background-size: 100% 3px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.glow-text-green { text-shadow: 0 0 8px rgba(118, 185, 0, 0.4); }
+.glow-text-cyan  { text-shadow: 0 0 8px rgba(0, 255, 204, 0.4); }
+
+/* Plant Sway */
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.animate-sway-slow {
+  transform-origin: bottom center;
+  animation: sway 4s infinite ease-in-out;
+}
+.animate-sway-fast {
+  transform-origin: bottom center;
+  animation: sway 1.5s infinite ease-in-out;
+}
+
+/* Worm Biometric Oscilloscope */
+@keyframes wormWiggle {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(1px, -0.5px) rotate(1deg) scale(1.02); }
+  66% { transform: translate(-1px, 0.5px) rotate(-1deg) scale(0.98); }
+}
+.animate-worm-slow {
+  transform-origin: center;
+  animation: wormWiggle 3s infinite ease-in-out;
+}
+.animate-worm-fast {
+  transform-origin: center;
+  animation: wormWiggle 1s infinite ease-in-out;
+}
+
+/* Compost Volcanic Steam */
+@keyframes steamRise {
+  0%   { transform: translateY(4px) scaleX(0.85); opacity: 0; }
+  20%  { opacity: 0.65; }
+  80%  { opacity: 0.3; }
+  100% { transform: translateY(-24px) scaleX(1.3); opacity: 0; }
+}
+.animate-steam-slow {
+  transform-origin: bottom center;
+  animation: steamRise 4s infinite linear;
+}
+.animate-steam-fast {
+  transform-origin: bottom center;
+  animation: steamRise 1.6s infinite linear;
+}
+
+/* Rover Sonar Pulse */
+@keyframes sonarPulse {
+  0%   { transform: scale(0.2); opacity: 0.95; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.animate-sonar {
+  transform-origin: center;
+  animation: sonarPulse 2.8s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Laser Circuit Flow */
+@keyframes laserFlow {
+  to { stroke-dashoffset: -20; }
+}
+.animate-laser {
+  stroke-dasharray: 6 4;
+  animation: laserFlow 1s infinite linear;
+}
+
+/* Water Spray Arc */
+@keyframes waterSpray {
+  0%, 100% { opacity: 0.7; stroke-dashoffset: 0; }
+  50%       { opacity: 1; stroke-dashoffset: -8; }
+}
+.animate-water-spray {
+  stroke-dasharray: 4 6;
+  animation: waterSpray 1.2s infinite ease-in-out;
+}
+
+/* Isometric Block Transitions */
+.isometric-slab {
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), fill 0.3s ease, stroke 0.3s ease, filter 0.4s ease;
+}
+.isometric-slab-group {
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Carbon Particles Floating */
+@keyframes particleFloat {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  10%  { opacity: 0.85; }
+  90%  { opacity: 0.85; }
+  100% { transform: translate(var(--tw-float-x, 4px), -30px); opacity: 0; }
+}
+.animate-particle-1 { animation: particleFloat 3.2s infinite ease-out; }
+.animate-particle-2 { animation: particleFloat 2.4s infinite ease-out; animation-delay: 0.8s; }
+.animate-particle-3 { animation: particleFloat 4s infinite ease-out; animation-delay: 1.5s; }

@@ -1,0 +1,166 @@
+<h2>AgriSense — Monitor de Agricultura de Precisión</h2>
+<p class="subtitle">Aplicación demo · IoT + Automatización · FastAPI + React + PostgreSQL</p>
+
+<div class="section">
+  <h3>Concepto</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="font-size:14px; line-height:1.6;">
+      Un agricultor de precisión maneja múltiples <strong>zonas de cultivo</strong> (invernadero A, campo exterior B). Cada zona tiene <strong>sensores IoT</strong> que reportan humedad del suelo, temperatura, humedad ambiente, pH y luz. Un <strong>motor de reglas</strong> evalúa condiciones y dispara acciones: activar riego, alertar helada, notificar pH anómalo. El dashboard muestra todo en tiempo real.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Entidades del Dominio</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div class="mockup">
+      <div class="mockup-header">Core</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li><strong>Zone</strong> — parcela/invernadero, cultivo, ubicación</li>
+          <li><strong>Sensor</strong> — tipo (temp, humedad, pH, luz), zona, unidad</li>
+          <li><strong>Reading</strong> — valor, timestamp, sensor_id</li>
+          <li><strong>Rule</strong> — condición (metric > X), acción, activa/inactiva</li>
+          <li><strong>Alert</strong> — regla disparada, timestamp, acknowledged</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">Soporte</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li><strong>User</strong> — login, rol (admin/operador)</li>
+          <li><strong>RuleAction</strong> — qué hacer: alertar, activar relé, email</li>
+          <li><strong>ZoneGroup</strong> — agrupación lógica de zonas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Funcionalidades</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Core</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ol style="margin:4px 0; padding-left:18px;">
+          <li>Dashboard general con status cards por zona</li>
+          <li>Vista detalle de zona con gráficos time-series</li>
+          <li>Tabla de sensores con último valor y estado</li>
+          <li>Motor de reglas evaluando cada N segundos</li>
+          <li>Historial de alertas con filtros</li>
+        </ol>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">Demo</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ol style="margin:4px 0; padding-left:18px;">
+          <li>Script que genera datos mock realistas cada 3-5s</li>
+          <li>Dashboard se actualiza en tiempo real (polling/SSE)</li>
+          <li>Reglas pre-cargadas que se disparan visiblmente</li>
+          <li>Toggle para pausar/reanudar simulación</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Arquitectura Clean</h3>
+  <div class="mockup">
+    <div class="mockup-header">Backend — 4 capas</div>
+    <div class="mockup-body" style="font-size:12px; line-height:1.5;">
+<pre style="background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:6px;margin:0;font-size:11px;">
+backend/
+├── src/
+│   ├── api/v1/
+│   │   ├── zones.py          GET/POST /api/v1/zones
+│   │   ├── sensors.py         GET/POST /api/v1/zones/{id}/sensors
+│   │   ├── readings.py        GET/POST /api/v1/sensors/{id}/readings
+│   │   ├── rules.py           GET/POST /api/v1/rules
+│   │   └── alerts.py          GET/PATCH /api/v1/alerts
+│   ├── application/
+│   │   ├── services/          ZoneService, RuleEngine, ReadingService
+│   │   └── dto/               CreateZoneDTO, RuleEvaluationResult
+│   ├── domain/
+│   │   ├── entities/          Zone, Sensor, Reading, Rule, Alert
+│   │   ├── value_objects/     SensorType, Threshold, GeoLocation
+│   │   ├── ports/             ZoneRepository, RuleRepository (interfaces)
+│   │   └── events/            ThresholdExceeded, RuleTriggered
+│   └── infrastructure/
+│       ├── db/
+│       │   ├── models.py      SQLAlchemy ORM models
+│       │   └── repositories/  Implementaciones de repositorios
+│       ├── sensor_simulator/  Generador de datos mock para demo
+│       └── auth/              JWT, password hashing
+├── tests/
+│   ├── unit/domain/
+│   ├── unit/application/
+│   └── integration/api/
+├── alembic/
+└── pyproject.toml
+</pre>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Stack Técnico</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+    <div class="mockup">
+      <div class="mockup-header">Backend</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li>Python 3.13 + FastAPI</li>
+          <li>SQLAlchemy 2.0 async</li>
+          <li>Alembic (migrations)</li>
+          <li>Pydantic v2 (schemas)</li>
+          <li>Pytest + httpx</li>
+          <li>uv (package manager)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">Frontend</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li>React 19 + Vite</li>
+          <li>Tailwind CSS 4</li>
+          <li>Recharts (gráficos)</li>
+          <li>Lucide React (iconos)</li>
+          <li>React Router v7</li>
+          <li>Context API (estado)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">Infra</div>
+      <div class="mockup-body" style="font-size:13px;">
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li>PostgreSQL 16</li>
+          <li>Docker Compose (solo BD)</li>
+          <li>Script simulador integrado</li>
+          <li>SSE para tiempo real</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <div class="mockup">
+    <div class="mockup-header">Flujo Demo — Lo que se vería en vivo</div>
+    <div class="mockup-body" style="font-size:13px; line-height:1.6;">
+      <ol style="margin:4px 0; padding-left:18px;">
+        <li><strong>Login</strong> → Dashboard con 3 zonas: Invernadero Tomates, Invernadero Lechugas, Campo Exterior Maíz</li>
+        <li>Cada zona muestra cards con último valor de sensores y estado (verde/amarillo/rojo)</li>
+        <li>Script mock inyecta lecturas cada 3s — los gráficos se mueven solos</li>
+        <li>Regla pre-cargada: "SI humedad suelo &lt; 25% → alerta riesgo sequía"</li>
+        <li>A los ~15s de demo, la humedad simulada baja del threshold → aparece alerta en el dashboard</li>
+        <li>Usuario hace clic en la alerta, la marca como acknowledged, ve el historial</li>
+      </ol>
+    </div>
+  </div>
+</div>

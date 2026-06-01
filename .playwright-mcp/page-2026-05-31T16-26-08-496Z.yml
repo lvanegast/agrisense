@@ -1,0 +1,100 @@
+- generic [ref=e24]:
+  - complementary [ref=e25]:
+    - generic [ref=e27]:
+      - img [ref=e29]
+      - generic [ref=e32]:
+        - heading "AgriSense" [level=1] [ref=e33]
+        - paragraph [ref=e34]: v0.1.0
+    - navigation [ref=e35]:
+      - link "Dashboard" [ref=e36] [cursor=pointer]:
+        - /url: /
+        - img [ref=e37]
+        - text: Dashboard
+      - link "Alertas" [ref=e42] [cursor=pointer]:
+        - /url: /alerts
+        - img [ref=e43]
+        - text: Alertas
+      - link "Reglas" [ref=e46] [cursor=pointer]:
+        - /url: /rules
+        - img [ref=e47]
+        - text: Reglas
+    - button "Cerrar sesión" [ref=e49]:
+      - img [ref=e50]
+      - text: Cerrar sesión
+  - main [ref=e53]:
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - heading "Dashboard" [level=2] [ref=e58]
+          - paragraph [ref=e59]: Monitor de zonas de cultivo — datos en tiempo real
+        - generic [ref=e62]: Live
+      - generic [ref=e63]:
+        - link "Invernadero Tomates Tomate Cherry Temp. Tomates --°C Hum. Suelo Tom… --% pH Tomates --pH" [ref=e64] [cursor=pointer]:
+          - /url: /zones/378b003b-4341-414e-a19b-b3541178c1b9
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - heading "Invernadero Tomates" [level=3] [ref=e67]
+              - paragraph [ref=e68]: Tomate Cherry
+            - img [ref=e69]
+          - generic [ref=e73]:
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - img [ref=e76]
+                - generic [ref=e78]: Temp. Tomates
+              - generic [ref=e79]: "--°C"
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - img [ref=e82]
+                - generic [ref=e85]: Hum. Suelo Tom…
+              - generic [ref=e86]: "--%"
+            - generic [ref=e87]:
+              - generic [ref=e88]:
+                - img [ref=e89]
+                - generic [ref=e91]: pH Tomates
+              - generic [ref=e92]: "--pH"
+        - link "Invernadero Lechugas Lechuga Hidropónica Temp. Lechugas --°C Hum. Ambiente … --% Luz Lechugas --lux" [ref=e93] [cursor=pointer]:
+          - /url: /zones/7a24ab56-1f9b-407a-9470-478714805418
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - heading "Invernadero Lechugas" [level=3] [ref=e96]
+              - paragraph [ref=e97]: Lechuga Hidropónica
+            - img [ref=e98]
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - img [ref=e105]
+                - generic [ref=e107]: Temp. Lechugas
+              - generic [ref=e108]: "--°C"
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - img [ref=e111]
+                - generic [ref=e114]: Hum. Ambiente …
+              - generic [ref=e115]: "--%"
+            - generic [ref=e116]:
+              - generic [ref=e117]:
+                - img [ref=e118]
+                - generic [ref=e124]: Luz Lechugas
+              - generic [ref=e125]: "--lux"
+        - link "Campo Exterior Maíz Maíz Dulce Temp. Exterior --°C Hum. Suelo Maí… --% pH Maíz --pH" [ref=e126] [cursor=pointer]:
+          - /url: /zones/448f2f54-5252-4063-8216-b2ec86391a4d
+          - generic [ref=e127]:
+            - generic [ref=e128]:
+              - heading "Campo Exterior Maíz" [level=3] [ref=e129]
+              - paragraph [ref=e130]: Maíz Dulce
+            - img [ref=e131]
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - generic [ref=e137]:
+                - img [ref=e138]
+                - generic [ref=e140]: Temp. Exterior
+              - generic [ref=e141]: "--°C"
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - img [ref=e144]
+                - generic [ref=e147]: Hum. Suelo Maí…
+              - generic [ref=e148]: "--%"
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - img [ref=e151]
+                - generic [ref=e153]: pH Maíz
+              - generic [ref=e154]: "--pH"

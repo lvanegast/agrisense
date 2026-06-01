@@ -1,0 +1,133 @@
+<h2>Comparativa: Feature Request Board vs Knowledge Base</h2>
+<p class="subtitle">Análisis detallado de complejidad, entidades y arquitectura</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Opción A: Feature Request Board</div>
+    <div class="mockup-body" style="font-size: 13px; line-height: 1.6;">
+      <strong>Concepto:</strong> Un portal donde los usuarios proponen features, votan, y el equipo gestiona el roadmap.
+
+      <h4 style="margin-top: 16px;">Entidades principales</h4>
+      <ul style="margin: 4px 0; padding-left: 18px;">
+        <li><strong>User</strong> — registro, roles (user/admin)</li>
+        <li><strong>Board/Project</strong> — agrupa requests por producto</li>
+        <li><strong>FeatureRequest</strong> — título, descripción, estado, autor</li>
+        <li><strong>Vote</strong> — un voto por usuario por request</li>
+        <li><strong>Comment</strong> — discusión en cada request</li>
+        <li><strong>Status</strong> — planned, in progress, shipped, declined</li>
+      </ul>
+
+      <h4 style="margin-top: 16px;">Features clave</h4>
+      <ul style="margin: 4px 0; padding-left: 18px;">
+        <li>Auth con JWT (registro, login, roles)</li>
+        <li>Crear/votar/comentar requests</li>
+        <li>Kanban board con drag & drop (admin)</li>
+        <li>Filtros por estado, popularidad, fecha</li>
+        <li>Changelog público de lo implementado</li>
+      </ul>
+
+      <h4 style="margin-top: 16px;">Complejidad por capa</h4>
+      <div style="display:flex; gap:4px; margin-top:4px;">
+        <div style="flex:1; background:#dbeafe;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">Domain<br><strong>5 entities</strong></div>
+        <div style="flex:1; background:#d1fae5;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">API<br><strong>~12 endpoints</strong></div>
+        <div style="flex:1; background:#fef3c7;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">Frontend<br><strong>~8 páginas</strong></div>
+        <div style="flex:1; background:#ede9fe;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">UI<br><strong>Kanban</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">Opción D: Knowledge Base</div>
+    <div class="mockup-body" style="font-size: 13px; line-height: 1.6;">
+      <strong>Concepto:</strong> Espacio personal/equipo de notas interconectadas con editor Markdown y visualización de grafos.
+
+      <h4 style="margin-top: 16px;">Entidades principales</h4>
+      <ul style="margin: 4px 0; padding-left: 18px;">
+        <li><strong>User</strong> — registro, perfil</li>
+        <li><strong>Workspace</strong> — espacio de trabajo (personal/equipo)</li>
+        <li><strong>Note</strong> — contenido Markdown, título, metadata</li>
+        <li><strong>Tag</strong> — etiquetas para organizar</li>
+        <li><strong>Link</strong> — conexiones entre notas (backlinks)</li>
+        <li><strong>Collection</strong> — agrupación jerárquica de notas</li>
+      </ul>
+
+      <h4 style="margin-top: 16px;">Features clave</h4>
+      <ul style="margin: 4px 0; padding-left: 18px;">
+        <li>Editor Markdown WYSIWYG</li>
+        <li>Graph view de conexiones entre notas</li>
+        <li>Búsqueda full-text (PostgreSQL tsvector)</li>
+        <li>Sistema de tags y colecciones anidadas</li>
+        <li>Auto-backlinks al mencionar [[otra-nota]]</li>
+      </ul>
+
+      <h4 style="margin-top: 16px;">Complejidad por capa</h4>
+      <div style="display:flex; gap:4px; margin-top:4px;">
+        <div style="flex:1; background:#dbeafe;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">Domain<br><strong>6 entities</strong></div>
+        <div style="flex:1; background:#d1fae5;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">API<br><strong>~14 endpoints</strong></div>
+        <div style="flex:1; background:#fef3c7;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">Frontend<br><strong>~6 páginas</strong></div>
+        <div style="flex:1; background:#ede9fe;padding:4px 8px;border-radius:4px;text-align:center;font-size:11px;">UI<br><strong>Graph</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>¿Cuál demuestra mejor la arquitectura?</h3>
+</div>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">A: Feature Request Board</div>
+    <div class="mockup-body" style="font-size:13px;">
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros para la prueba</h4><ul>
+          <li>Más endpoints = mejor demostración de capas</li>
+          <li>Lógica de negocio clara (votos no duplicados, estados)</li>
+          <li>Drag & drop = interacción frontend avanzada</li>
+          <li>Roles admin/user = autorización real</li>
+          <li>Flujo completo: idea → voto → roadmap → shipped</li>
+        </ul></div>
+        <div class="cons"><h4>Contras</h4><ul>
+          <li>Kanban requiere más tiempo de frontend</li>
+          <li>Menos "visualmente impresionante" que un grafo</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">D: Knowledge Base</div>
+    <div class="mockup-body" style="font-size:13px;">
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros para la prueba</h4><ul>
+          <li>Graph view = impacto visual muy alto</li>
+          <li>Editor Markdown = componente frontend rico</li>
+          <li>Full-text search = feature de infraestructura interesante</li>
+          <li>Backlinks [[ ]] = lógica de parsing no trivial</li>
+        </ul></div>
+        <div class="cons"><h4>Contras</h4><ul>
+          <li>El graph view es complejo de implementar bien (D3.js)</li>
+          <li>Menos entidades de negocio ≠ menos demostración de arquitectura</li>
+          <li>Editor WYSIWYG puede desviar el foco del backend</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <div class="mockup">
+    <div class="mockup-header">Mi recomendación</div>
+    <div class="mockup-body" style="font-size:14px; line-height:1.6;">
+      <p><strong>Opción A (Feature Request Board)</strong> es mejor para esta prueba de arquitectura porque:</p>
+      <ol style="margin:8px 0; padding-left:18px;">
+        <li><strong>Más entidades de dominio</strong> → la clean architecture se luce más</li>
+        <li><strong>Autorización por roles</strong> → middleware, guards, permisos</li>
+        <li><strong>Lógica de negocio real</strong> → validar votos duplicados, transiciones de estado</li>
+        <li><strong>Kanban board</strong> → operaciones PATCH masivas al reordenar (drag & drop)</li>
+        <li><strong>Balanceado</strong> — complejo pero no abrumador. Se puede entregar completo.</li>
+      </ol>
+      <p style="margin-top:12px;">Si lo visual es prioridad, la <strong>Opción D</strong> gana con el graph view, pero el esfuerzo en D3.js puede restar tiempo a demostrar la arquitectura del backend.</p>
+    </div>
+  </div>
+</div>
