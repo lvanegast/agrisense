@@ -88,6 +88,8 @@ export const api = {
   createWorkOrder: (data) =>
     request('/work-orders', { method: 'POST', body: JSON.stringify(data) }),
   listWorkOrders: () => request('/work-orders'),
+  updateWorkOrderStatus: (id, status) =>
+    request(`/work-orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
 
   // Weather (New Feature 1)
   getWeather: () => request('/weather'),

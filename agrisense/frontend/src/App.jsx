@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import ZoneDetail from './pages/ZoneDetail';
 import Alerts from './pages/Alerts';
 import Rules from './pages/Rules';
+import WorkOrders from './pages/WorkOrders';
 
 function ProtectedRoute({ children }) {
   const { authenticated } = useAuth();
@@ -30,6 +31,7 @@ export default function App() {
             <Route path="zones/:zoneId" element={<ZoneDetail />} />
             <Route path="alerts" element={<Alerts />} />
             <Route path="rules" element={<Rules />} />
+            <Route path="work-orders" element={<WorkOrders />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

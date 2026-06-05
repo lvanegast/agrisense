@@ -6,6 +6,7 @@ import {
   SlidersHorizontal,
   LogOut,
   Leaf,
+  ClipboardList,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,6 +14,7 @@ const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/alerts', icon: Bell, label: 'Alertas' },
   { to: '/rules', icon: SlidersHorizontal, label: 'Reglas' },
+  { to: '/work-orders', icon: ClipboardList, label: 'Órdenes' },
 ];
 
 export default function Layout() {
