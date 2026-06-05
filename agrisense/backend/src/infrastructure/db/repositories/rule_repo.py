@@ -23,12 +23,14 @@ class SqlAlchemyRuleRepository(RuleRepository):
 
     async def list_active(self) -> list[Rule]:
         result = await self._session.execute(
-            select(RuleModel).where(RuleModel.is_active == True)
+            select(RuleModel).where(RuleModel.is_active)
         )
         return [self._to_entity(m) for m in result.scalars().all()]
 
     async def list_all(self) -> list[Rule]:
-        result = await self._session.execute(select(RuleModel).order_by(RuleModel.created_at))
+        result = await self._session.execute(
+            select(RuleModel).order_by(RuleModel.created_at)
+        )
         return [self._to_entity(m) for m in result.scalars().all()]
 
     async def add(self, rule: Rule) -> Rule:
@@ -41,6 +43,7 @@ class SqlAlchemyRuleRepository(RuleRepository):
             threshold=rule.threshold,
             is_active=rule.is_active,
             action_type=rule.action_type,
+            conditions=rule.conditions,
         )
         self._session.add(model)
         await self._session.flush()
@@ -58,6 +61,7 @@ class SqlAlchemyRuleRepository(RuleRepository):
             model.threshold = rule.threshold
             model.operator = rule.operator.value
             model.action_type = rule.action_type
+            model.conditions = rule.conditions
             await self._session.flush()
         return rule
 
@@ -72,6 +76,6 @@ class SqlAlchemyRuleRepository(RuleRepository):
             threshold=model.threshold,
             is_active=model.is_active,
             action_type=model.action_type,
+            conditions=model.conditions if model.conditions is not None else [],
             created_at=model.created_at,
         )
-

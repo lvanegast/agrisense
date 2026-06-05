@@ -16,5 +16,5 @@ class Rule:
     id: UUID = field(default_factory=uuid4)
     is_active: bool = True
     action_type: str = "alert"  # alert | work_order | both
+    conditions: list[dict] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.utcnow)
-

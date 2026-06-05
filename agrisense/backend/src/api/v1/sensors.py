@@ -5,8 +5,6 @@ from pydantic import BaseModel
 
 from src.infrastructure.auth.jwt import get_current_user
 from src.api.deps import get_sensor_repo
-from src.domain.entities.sensor import Sensor
-from src.domain.value_objects.sensor_type import SensorType
 from src.domain.ports.sensor_repository import SensorRepository
 
 router = APIRouter(prefix="/sensors", tags=["sensors"])
@@ -38,6 +36,7 @@ async def get_sensor(
     sensor = await repo.get_by_id(sensor_id)
     if not sensor:
         from fastapi import HTTPException
+
         raise HTTPException(status_code=404, detail="Sensor not found")
     return SensorResponse(
         id=str(sensor.id),

@@ -1,7 +1,6 @@
 from uuid import UUID
 
 from src.domain.entities.alert import Alert
-from src.domain.entities.reading import Reading
 from src.domain.ports.rule_repository import RuleRepository
 from src.domain.ports.alert_repository import AlertRepository
 from src.domain.ports.sensor_repository import SensorRepository
@@ -29,65 +28,153 @@ class RuleEngine:
         self._work_order_repo = work_order_repo
 
     async def evaluate(self) -> list[Alert]:
+        from src.domain.value_objects.operator import Operator
+        from src.application.services.weather_service import WeatherService
+
         rules = await self._rule_repo.list_active()
         triggered: list[Alert] = []
 
-        for rule in rules:
-            sensors = await self._sensor_repo.list_all()
-            matching_sensors = [s for s in sensors if s.type == rule.sensor_type]
+        sensors = await self._sensor_repo.list_all()
+        # Group sensors by zone_id
+        sensors_by_zone = {}
+        for sensor in sensors:
+            if sensor.zone_id not in sensors_by_zone:
+                sensors_by_zone[sensor.zone_id] = []
+            sensors_by_zone[sensor.zone_id].append(sensor)
 
-            for sensor in matching_sensors:
-                latest = await self._reading_repo.get_latest_by_sensor(sensor.id)
-                if latest is None:
-                    continue
+        weather_service = WeatherService()
+        weather = weather_service.get_current_weather()
 
-                if rule.operator.evaluate(latest.value, rule.threshold):
-                    # 1. Ejecutar Acción: Alert (Alerta estándar)
-                    # Se dispara si action_type es "alert" o "both" (o por defecto para retrocompatibilidad)
-                    is_alert = rule.action_type in ("alert", "both") or not hasattr(rule, "action_type")
-                    alert = None
+        for zone_id, zone_sensors in sensors_by_zone.items():
+            latest_readings = await self._reading_repo.get_latest_by_zone(zone_id)
 
+            for rule in rules:
+                is_triggered = False
+                trigger_details = []
+                primary_sensor_id = None
+                primary_reading_value = 0.0
+                message = ""
+
+                # Check if it is a complex rule (has conditions list)
+                if hasattr(rule, "conditions") and rule.conditions:
+                    conditions_met = True
+                    for cond in rule.conditions:
+                        s_type = cond.get("sensor_type")
+                        op_val = cond.get("operator")
+                        threshold = cond.get("threshold")
+
+                        op = Operator(op_val)
+
+                        if str(s_type).startswith("weather_"):
+                            # Weather condition
+                            field = str(s_type).replace("weather_", "")
+                            actual_val = weather.get(field)
+                            unit = (
+                                "°C"
+                                if "temperature" in field
+                                else (" km/h" if "wind" in field else "%")
+                            )
+
+                            if actual_val is None or not op.evaluate(
+                                actual_val, threshold
+                            ):
+                                conditions_met = False
+                                break
+                            trigger_details.append(
+                                f"Clima {field}: {actual_val}{unit} ({op.value} {threshold})"
+                            )
+                        else:
+                            # Sensor condition
+                            matching_sensor = next(
+                                (s for s in zone_sensors if s.type == s_type), None
+                            )
+                            if not matching_sensor:
+                                conditions_met = False
+                                break
+
+                            latest = latest_readings.get(matching_sensor.id)
+                            if latest is None or not op.evaluate(
+                                latest.value, threshold
+                            ):
+                                conditions_met = False
+                                break
+
+                            if primary_sensor_id is None:
+                                primary_sensor_id = matching_sensor.id
+                                primary_reading_value = latest.value
+                            trigger_details.append(
+                                f"{matching_sensor.name}: {latest.value:.1f}{matching_sensor.unit} ({op.value} {threshold})"
+                            )
+
+                    if conditions_met:
+                        is_triggered = True
+                        message_detail = ", ".join(trigger_details)
+                        message = f"{rule.name} (Multi-Condición): {message_detail}"
+                        if primary_sensor_id is None and zone_sensors:
+                            primary_sensor_id = zone_sensors[0].id
+                            primary_reading_value = 0.0
+                else:
+                    # Single condition rule (original logic)
+                    matching_sensor = next(
+                        (s for s in zone_sensors if s.type == rule.sensor_type), None
+                    )
+                    if matching_sensor:
+                        latest = latest_readings.get(matching_sensor.id)
+                        if latest is not None and rule.operator.evaluate(
+                            latest.value, rule.threshold
+                        ):
+                            is_triggered = True
+                            primary_sensor_id = matching_sensor.id
+                            primary_reading_value = latest.value
+                            message = f"{rule.name}: {matching_sensor.name} {rule.operator.value} {rule.threshold} (actual: {latest.value:.1f}{matching_sensor.unit})"
+
+                if is_triggered and primary_sensor_id:
+                    # 1. Ejecutar Acción: Alert
+                    is_alert = rule.action_type in ("alert", "both") or not hasattr(
+                        rule, "action_type"
+                    )
                     if is_alert:
                         alert = Alert(
                             rule_id=rule.id,
-                            zone_id=sensor.zone_id,
-                            sensor_id=sensor.id,
-                            message=f"{rule.name}: {sensor.name} {rule.operator.value} {rule.threshold} (actual: {latest.value:.1f}{sensor.unit})",
-                            reading_value=latest.value,
+                            zone_id=zone_id,
+                            sensor_id=primary_sensor_id,
+                            message=message,
+                            reading_value=primary_reading_value,
                         )
                         await self._alert_repo.add(alert)
                         triggered.append(alert)
 
-                    # 2. Ejecutar Acción: Work Order (Orden de trabajo)
-                    # Se dispara si action_type es "work_order" o "both"
-                    is_work_order = hasattr(rule, "action_type") and rule.action_type in ("work_order", "both")
+                    # 2. Ejecutar Acción: Work Order
+                    is_work_order = hasattr(
+                        rule, "action_type"
+                    ) and rule.action_type in ("work_order", "both")
                     if is_work_order and self._work_order_repo:
-                        # Evitar duplicados: verificar si ya hay una orden pendiente o en proceso para este sensor
-                        existing = await self._work_order_repo.list_by_zone(sensor.zone_id)
+                        existing = await self._work_order_repo.list_by_zone(zone_id)
                         has_active = any(
-                            w.sensor_id == sensor.id
-                            and w.status in (WorkOrderStatus.PENDING, WorkOrderStatus.IN_PROGRESS)
+                            w.sensor_id == primary_sensor_id
+                            and w.status
+                            in (WorkOrderStatus.PENDING, WorkOrderStatus.IN_PROGRESS)
                             for w in existing
                         )
-
                         if not has_active:
                             title = f"Intervención: {rule.name}"
                             description = (
-                                f"La regla de automatización '{rule.name}' detectó una lectura anómala "
-                                f"en {sensor.name}: {latest.value:.1f}{sensor.unit} (umbral crítico: {rule.operator.value} {rule.threshold}). "
-                                f"Requiere inspección y activación manual de actuadores."
+                                f"La regla compleja '{rule.name}' ha sido disparada. Detalles:\n"
+                                f"{message}.\n"
+                                f"Requiere inspección en zona."
                             )
                             work_order = WorkOrder(
                                 title=title,
                                 description=description,
-                                zone_id=sensor.zone_id,
-                                sensor_id=sensor.id,
+                                zone_id=zone_id,
+                                sensor_id=primary_sensor_id,
                                 status=WorkOrderStatus.PENDING,
                             )
                             await self._work_order_repo.add(work_order)
 
         return triggered
 
+        return triggered
 
     async def list_alerts(self, limit: int = 50) -> list[Alert]:
         return await self._alert_repo.list_all(limit=limit)

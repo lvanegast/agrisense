@@ -1,11 +1,8 @@
 import asyncio
 import math
 import random
-import time
-from datetime import datetime, timezone
 from uuid import UUID
 
-from src.domain.entities.reading import Reading
 from src.domain.value_objects.sensor_type import SensorType
 from src.application.services.reading_service import ReadingService
 from src.application.services.rule_engine import RuleEngine
@@ -27,16 +24,17 @@ class SensorSimulator:
                     await self._reading_service.add_reading(sid, value)
 
             await self._rule_engine.evaluate()
-            
+
             # Commit the session to make readings visible to the rest of the application
             if hasattr(self._reading_service._reading_repo, "_session"):
                 await self._reading_service._reading_repo._session.commit()
-                
+
             t += interval
             await asyncio.sleep(interval)
 
-
-    def _generate_value(self, sensor_type: SensorType, t: float, sensor_id: str) -> float:
+    def _generate_value(
+        self, sensor_type: SensorType, t: float, sensor_id: str
+    ) -> float:
         seed = hash(sensor_id) % 100
         noise = random.gauss(0, 1)
 

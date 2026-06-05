@@ -3,7 +3,6 @@ from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from src.domain.entities.reading import Reading
 from src.domain.ports.reading_repository import ReadingRepository
@@ -52,7 +51,7 @@ class SqlAlchemyReadingRepository(ReadingRepository):
         if not sensor_ids:
             return {}
 
-        from sqlalchemy import distinct, func
+        from sqlalchemy import func
 
         subq = (
             select(

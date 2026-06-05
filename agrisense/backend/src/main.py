@@ -1,12 +1,13 @@
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.v1 import router as v1_router
-from src.infrastructure.db.config import engine, async_session
+from src.infrastructure.db.config import engine
 from src.infrastructure.db.models import Base
-from src.infrastructure.sensor_simulator import SensorSimulator
+from src.application.services.rover_simulator import RoverSimulatorService
 
 
 async def init_db():
@@ -14,11 +15,8 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 
 
-import asyncio
-from src.application.services.rover_simulator import RoverSimulatorService
-
-
 async def rover_simulator_loop():
+
     rover = RoverSimulatorService()
     while True:
         try:
@@ -36,7 +34,6 @@ async def lifespan(app: FastAPI):
         yield
     finally:
         rover_task.cancel()
-
 
 
 app = FastAPI(

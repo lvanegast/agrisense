@@ -21,16 +21,14 @@ class SqlAlchemyAlertRepository(AlertRepository):
 
     async def list_all(self, limit: int = 50) -> list[Alert]:
         result = await self._session.execute(
-            select(AlertModel)
-            .order_by(AlertModel.created_at.desc())
-            .limit(limit)
+            select(AlertModel).order_by(AlertModel.created_at.desc()).limit(limit)
         )
         return [self._to_entity(m) for m in result.scalars().all()]
 
     async def list_unacknowledged(self) -> list[Alert]:
         result = await self._session.execute(
             select(AlertModel)
-            .where(AlertModel.acknowledged == False)
+            .where(not AlertModel.acknowledged)
             .order_by(AlertModel.created_at.desc())
         )
         return [self._to_entity(m) for m in result.scalars().all()]

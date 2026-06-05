@@ -33,7 +33,7 @@ async def list_actuators(
         # Si no hay zone_id, retornar lista de todos los actuadores del sistema
         # Para simplificar y mantener compatibilidad, listamos todos desde el repo del servicio
         actuators = await service._actuator_repo.list_all()
-        
+
     return [
         ActuatorResponse(
             id=str(a.id),

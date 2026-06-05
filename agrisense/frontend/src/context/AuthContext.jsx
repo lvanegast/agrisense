@@ -1,10 +1,18 @@
-import { createContext, useContext, useState, useCallback } from 'react';
-import { api, setToken, getToken } from '../services/api';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { api, setToken, getToken, setUnauthorizedHandler } from '../services/api';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(!!getToken());
+
+  // Registrar el handler de logout automático cuando el token expira (401)
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      setAuthenticated(false);
+    });
+    return () => setUnauthorizedHandler(null);
+  }, []);
 
   const login = useCallback(async (username, password) => {
     const data = await api.login(username, password);

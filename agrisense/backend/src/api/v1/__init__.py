@@ -9,6 +9,8 @@ from .alerts import router as alerts_router
 from .actuators import router as actuators_router
 from .work_orders import router as work_orders_router
 from .rover import router as rover_router
+from .weather import router as weather_router
+from .copilot import router as copilot_router
 
 router = APIRouter(prefix="/api/v1")
 router.include_router(auth_router)
@@ -20,4 +22,5 @@ router.include_router(alerts_router)
 router.include_router(actuators_router)
 router.include_router(work_orders_router)
 router.include_router(rover_router)
-
+router.include_router(weather_router)
+router.include_router(copilot_router)

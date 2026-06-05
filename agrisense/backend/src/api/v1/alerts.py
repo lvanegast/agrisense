@@ -36,9 +36,13 @@ async def list_alerts(
         alerts = await engine.list_alerts(limit=limit)
     return [
         AlertResponse(
-            id=str(a.id), rule_id=str(a.rule_id), zone_id=str(a.zone_id),
-            sensor_id=str(a.sensor_id), message=a.message,
-            reading_value=a.reading_value, acknowledged=a.acknowledged,
+            id=str(a.id),
+            rule_id=str(a.rule_id),
+            zone_id=str(a.zone_id),
+            sensor_id=str(a.sensor_id),
+            message=a.message,
+            reading_value=a.reading_value,
+            acknowledged=a.acknowledged,
             created_at=a.created_at.isoformat(),
         )
         for a in alerts
@@ -55,8 +59,12 @@ async def acknowledge_alert(
     if not alert:
         raise HTTPException(status_code=404, detail="Alert not found")
     return AlertResponse(
-        id=str(alert.id), rule_id=str(alert.rule_id), zone_id=str(alert.zone_id),
-        sensor_id=str(alert.sensor_id), message=alert.message,
-        reading_value=alert.reading_value, acknowledged=alert.acknowledged,
+        id=str(alert.id),
+        rule_id=str(alert.rule_id),
+        zone_id=str(alert.zone_id),
+        sensor_id=str(alert.sensor_id),
+        message=alert.message,
+        reading_value=alert.reading_value,
+        acknowledged=alert.acknowledged,
         created_at=alert.created_at.isoformat(),
     )

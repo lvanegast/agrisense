@@ -21,12 +21,16 @@ class SqlAlchemyActuatorRepository(ActuatorRepository):
         return self._to_entity(model) if model else None
 
     async def list_all(self) -> list[Actuator]:
-        result = await self._session.execute(select(ActuatorModel).order_by(ActuatorModel.created_at))
+        result = await self._session.execute(
+            select(ActuatorModel).order_by(ActuatorModel.created_at)
+        )
         return [self._to_entity(m) for m in result.scalars().all()]
 
     async def list_by_zone(self, zone_id: UUID) -> list[Actuator]:
         result = await self._session.execute(
-            select(ActuatorModel).where(ActuatorModel.zone_id == zone_id).order_by(ActuatorModel.created_at)
+            select(ActuatorModel)
+            .where(ActuatorModel.zone_id == zone_id)
+            .order_by(ActuatorModel.created_at)
         )
         return [self._to_entity(m) for m in result.scalars().all()]
 

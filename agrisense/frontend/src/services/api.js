@@ -2,6 +2,12 @@ const BASE = '/api/v1';
 
 let token = localStorage.getItem('token');
 
+// Callback para forzar logout global cuando el token expira (401)
+let _onUnauthorized = null;
+export function setUnauthorizedHandler(fn) {
+  _onUnauthorized = fn;
+}
+
 export function setToken(t) {
   token = t;
   if (t) localStorage.setItem('token', t);
@@ -17,6 +23,14 @@ async function request(path, options = {}) {
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const res = await fetch(`${BASE}${path}`, { ...options, headers });
+
+  if (res.status === 401) {
+    // Token expirado o inválido → limpiar sesión y redirigir al login
+    setToken(null);
+    if (_onUnauthorized) _onUnauthorized();
+    throw new Error('Sesión expirada. Por favor inicia sesión nuevamente.');
+  }
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: res.statusText }));
     throw new Error(err.detail || 'Request failed');
@@ -60,4 +74,30 @@ export const api = {
     request(`/alerts${unacknowledgedOnly ? '?unacknowledged_only=true' : ''}`),
   acknowledgeAlert: (id) =>
     request(`/alerts/${id}`, { method: 'PATCH' }),
+
+  // Actuators
+  listActuators: (zoneId) =>
+    request(`/actuators${zoneId ? `?zone_id=${zoneId}` : ''}`),
+  toggleActuator: (actuatorId) =>
+    request(`/actuators/${actuatorId}/toggle`, { method: 'POST' }),
+
+  // Rover
+  getRoverTelemetry: () => request('/rover/telemetry'),
+
+  // Work Orders
+  createWorkOrder: (data) =>
+    request('/work-orders', { method: 'POST', body: JSON.stringify(data) }),
+  listWorkOrders: () => request('/work-orders'),
+
+  // Weather (New Feature 1)
+  getWeather: () => request('/weather'),
+
+  // Zone Phenology (New Feature 2)
+  updateZonePhenology: (id, data) =>
+    request(`/zones/${id}/phenology`, { method: 'POST', body: JSON.stringify(data) }),
+
+  // AI Copilot (New Feature 4)
+  copilotChat: (message) =>
+    request('/copilot/chat', { method: 'POST', body: JSON.stringify({ message }) }),
 };
+

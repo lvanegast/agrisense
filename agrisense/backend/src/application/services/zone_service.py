@@ -20,14 +20,15 @@ class ZoneService:
         self._reading_repo = reading_repo
         self._health_score_service = health_score_service
 
-
     async def list_zones(self) -> list[Zone]:
         return await self._zone_repo.list_all()
 
     async def get_zone(self, zone_id: UUID) -> Zone | None:
         return await self._zone_repo.get_by_id(zone_id)
 
-    async def create_zone(self, name: str, crop_type: str, location: str = "", area: float = 0.0) -> Zone:
+    async def create_zone(
+        self, name: str, crop_type: str, location: str = "", area: float = 0.0
+    ) -> Zone:
         zone = Zone(name=name, crop_type=crop_type, location=location, area=area)
         return await self._zone_repo.add(zone)
 
@@ -41,20 +42,26 @@ class ZoneService:
 
         health_score = 100.0
         if self._health_score_service:
-            health_score = await self._health_score_service.calculate_zone_health(zone_id)
+            health_score = await self._health_score_service.calculate_zone_health(
+                zone_id
+            )
 
         sensor_data = []
         for sensor in sensors:
             reading = latest_readings.get(sensor.id)
-            sensor_data.append({
-                "id": str(sensor.id),
-                "name": sensor.name,
-                "type": sensor.type.value,
-                "unit": sensor.unit,
-                "is_active": sensor.is_active,
-                "latest_value": reading.value if reading else None,
-                "latest_timestamp": reading.timestamp.isoformat() if reading and reading.timestamp else None,
-            })
+            sensor_data.append(
+                {
+                    "id": str(sensor.id),
+                    "name": sensor.name,
+                    "type": sensor.type.value,
+                    "unit": sensor.unit,
+                    "is_active": sensor.is_active,
+                    "latest_value": reading.value if reading else None,
+                    "latest_timestamp": reading.timestamp.isoformat()
+                    if reading and reading.timestamp
+                    else None,
+                }
+            )
 
         return {
             "id": str(zone.id),
@@ -62,7 +69,22 @@ class ZoneService:
             "crop_type": zone.crop_type,
             "location": zone.location,
             "area": zone.area,
+            "planting_date": zone.planting_date.isoformat()
+            if zone.planting_date
+            else None,
+            "current_stage": zone.current_stage,
             "health_score": health_score,
             "sensors": sensor_data,
         }
 
+    async def update_zone_phenology(
+        self, zone_id: UUID, planting_date=None, stage: str | None = None
+    ) -> Zone | None:
+        zone = await self._zone_repo.get_by_id(zone_id)
+        if not zone:
+            return None
+        if planting_date is not None:
+            zone.planting_date = planting_date
+        if stage is not None:
+            zone.current_stage = stage
+        return await self._zone_repo.update(zone)

@@ -5,4 +5,3 @@ from .actuator_type import ActuatorType
 from .work_order_status import WorkOrderStatus
 
 __all__ = ["SensorType", "Threshold", "Operator", "ActuatorType", "WorkOrderStatus"]
-

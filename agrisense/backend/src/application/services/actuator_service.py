@@ -19,10 +19,12 @@ class ActuatorService:
         actuator = await self._actuator_repo.get_by_id(actuator_id)
         if not actuator:
             raise ValueError("Actuator not found")
-        
+
         actuator.is_on = not actuator.is_on
         return await self._actuator_repo.update(actuator)
 
-    async def create_actuator(self, name: str, type: ActuatorType, zone_id: UUID) -> Actuator:
+    async def create_actuator(
+        self, name: str, type: ActuatorType, zone_id: UUID
+    ) -> Actuator:
         actuator = Actuator(name=name, type=type, zone_id=zone_id)
         return await self._actuator_repo.add(actuator)

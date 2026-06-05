@@ -7,4 +7,3 @@ from .actuator import Actuator
 from .work_order import WorkOrder
 
 __all__ = ["Sensor", "Zone", "Reading", "Rule", "Alert", "Actuator", "WorkOrder"]
-

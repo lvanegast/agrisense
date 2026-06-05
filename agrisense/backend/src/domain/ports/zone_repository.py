@@ -13,3 +13,6 @@ class ZoneRepository(ABC):
 
     @abstractmethod
     async def add(self, zone: Zone) -> Zone: ...
+
+    @abstractmethod
+    async def update(self, zone: Zone) -> Zone: ...

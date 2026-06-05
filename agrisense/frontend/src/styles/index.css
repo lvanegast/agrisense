@@ -297,3 +297,25 @@ body::after {
 .animate-particle-1 { animation: particleFloat 3.2s infinite ease-out; }
 .animate-particle-2 { animation: particleFloat 2.4s infinite ease-out; animation-delay: 0.8s; }
 .animate-particle-3 { animation: particleFloat 4s infinite ease-out; animation-delay: 1.5s; }
+
+/* Animated Crop Simulations */
+@keyframes plantSway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+@keyframes cornSway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes waterDrop {
+  0% { transform: translateY(0); opacity: 0.8; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
+@keyframes windFlow {
+  0% { stroke-dashoffset: 0; opacity: 0.4; }
+  100% { stroke-dashoffset: -30; opacity: 0.1; }
+}

@@ -55,6 +55,10 @@ def get_zone_service(session: AsyncSession = Depends(get_session)):
         zone_repo=SqlAlchemyZoneRepository(session),
         sensor_repo=SqlAlchemySensorRepository(session),
         reading_repo=SqlAlchemyReadingRepository(session),
+        health_score_service=HealthScoreService(
+            sensor_repo=SqlAlchemySensorRepository(session),
+            reading_repo=SqlAlchemyReadingRepository(session),
+        ),
     )
 
 
@@ -89,3 +93,19 @@ def get_work_order_service(session: AsyncSession = Depends(get_session)):
 
 def get_rover_simulator():
     return RoverSimulatorService()
+
+
+def get_copilot_service(session: AsyncSession = Depends(get_session)):
+    from src.application.services.copilot_service import CopilotService
+
+    return CopilotService(
+        zone_repo=SqlAlchemyZoneRepository(session),
+        sensor_repo=SqlAlchemySensorRepository(session),
+        reading_repo=SqlAlchemyReadingRepository(session),
+        alert_repo=SqlAlchemyAlertRepository(session),
+        actuator_repo=SqlAlchemyActuatorRepository(session),
+        health_score_service=HealthScoreService(
+            sensor_repo=SqlAlchemySensorRepository(session),
+            reading_repo=SqlAlchemyReadingRepository(session),
+        ),
+    )
